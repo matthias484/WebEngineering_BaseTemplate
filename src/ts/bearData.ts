@@ -74,9 +74,9 @@ export const extractBears = async (wikitext: string): Promise<void> => {
       const rangeMatch = row.match(/\|range=(.*?)\n/); // Extract the range
 
       if (nameMatch != null && binomialMatch != null && imageMatch != null && rangeMatch != null) {
-        const fileName = imageMatch[1]?.trim().replace('File:', '');
+        const fileName = imageMatch[1]?.trim() ?? '';
 
-        const imageUrl = fileName ? await fetchImageUrl(fileName) : undefined;
+        const imageUrl = fileName !== '' ? await fetchImageUrl(fileName) : undefined;
 
         bears.push({
           name: nameMatch[1]?.trim() ?? 'Unknown Name',
@@ -124,14 +124,14 @@ export const getBearData = async (): Promise<void> => {
     // Use `any` to safely access `error.message`
     console.error(error.message || 'Unknown error');
 
-    const moreBearsSection = document.querySelector(
-      '.more_bears'
-    ) as HTMLElement | null;
+    const moreBearsSection = document.querySelector('.more_bears') as HTMLElement | null;
 
-    if (moreBearsSection) {
-      moreBearsSection.innerHTML = `<p>Error loading bear data: ${error.message || 'Unknown error occurred'}</p>`;
+    if (moreBearsSection != null) {
+      moreBearsSection.innerHTML = `<p>Error loading bear data: ${error.message ?? 'Unknown error occurred'}</p>`;
     } else {
       console.error('Element ".more_bears" not found');
     }
+
+
   }
 };
