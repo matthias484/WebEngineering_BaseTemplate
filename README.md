@@ -175,6 +175,31 @@ Apply the following ruleset for Prettier:
 
 Present your findings here...
 
+### Key Improvements Introduced by Using TypeScript Instead of JavaScript
+
+1. **Static Typing**
+  - **Why it's better**: TypeScript provides static typing, meaning you define variable types upfront. This helps catch errors early, during development, by preventing type mismatches.
+  - **Example**: When a function expects a string, like `fileName: string`, TypeScript ensures only strings are passed, reducing the chances of runtime issues.
+
+2. **Early Error Detection**
+  - **Why it's better**: The TypeScript compiler checks for errors such as incorrect types or undefined/null values before the code runs, reducing bugs at runtime.
+  - **Example**: When accessing elements like `moreBearsSection`, TypeScript ensures that you handle the case where it might be `null`, avoiding unexpected errors.
+
+3. **Improved Code Readability**
+  - **Why it's better**: TypeScript serves as in-line documentation by clearly defining variable and function types, making the code easier for developers to read and understand.
+  - **Example**: A function that returns `Promise<string | undefined>` tells future developers exactly what to expect without needing additional comments.
+
+4. **Safer DOM Manipulation**
+  - **Why it's better**: TypeScript forces you to account for the possibility of `null` or `undefined` when accessing DOM elements, making it safer to manipulate the page structure.
+  - **Example**: When manipulating `toggleComments`, TypeScript ensures elements like `showHideBtn` are present before trying to modify them.
+
+5. **Better Refactoring Support**
+  - **Why it's better**: TypeScript's strong typing system makes it easier to refactor code, ensuring any changes you make are reflected throughout the codebase, reducing the risk of breaking other parts.
+  - **Example**: If you rename a variable or function, TypeScript will alert you to any broken references elsewhere in the code.
+
+By using TypeScript, your code becomes more reliable, safer, and easier to maintain, leading to fewer bugs and a smoother development process.
+
+
 ## 3.	CI/CD Pipeline Playground (5 Pts.)
 Implementation of a CI/CD pipeline to automate the development and deployment process – write automated tests.
 
