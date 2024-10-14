@@ -1,49 +1,70 @@
 // Functionality for showing/hiding the comments section
 export const toggleComments = () => {
-    const showHideBtn = document.querySelector('.show-hide');
-    const commentWrapper = document.querySelector('.comment-wrapper');
+  const showHideBtn = document.querySelector(
+    '.show-hide'
+  ) as HTMLButtonElement | null;
+  const commentWrapper = document.querySelector(
+    '.comment-wrapper'
+  ) as HTMLElement | null;
 
-    commentWrapper.style.display = 'none';
+  // Check if elements exist before attaching event listeners
+  if (!showHideBtn || !commentWrapper) {
+    console.error('Required elements not found.');
+    return;
+  }
 
-    showHideBtn.onclick = () => {
-        const showHideText = showHideBtn.textContent;
-        if (showHideText === 'Show comments') {
-            showHideBtn.textContent = 'Hide comments';
-            commentWrapper.style.display = 'block';
-        } else {
-            showHideBtn.textContent = 'Show comments';
-            commentWrapper.style.display = 'none';
-        }
-    };
+  commentWrapper.style.display = 'none';
+
+  showHideBtn.onclick = () => {
+    const showHideText = showHideBtn.textContent;
+    if (showHideText === 'Show comments') {
+      showHideBtn.textContent = 'Hide comments';
+      commentWrapper.style.display = 'block';
+    } else {
+      showHideBtn.textContent = 'Show comments';
+      commentWrapper.style.display = 'none';
+    }
+  };
 };
 
 // Functionality for adding a new comment via the comments form
 export const handleCommentForm = () => {
-    const form = document.querySelector('.comment-form');
-    const nameField = document.querySelector('#name');
-    const commentField = document.querySelector('#comment');
-    const list = document.querySelector('.comment-container');
+  const form = document.querySelector(
+    '.comment-form'
+  ) as HTMLFormElement | null;
+  const nameField = document.querySelector('#name') as HTMLInputElement | null;
+  const commentField = document.querySelector(
+    '#comment'
+  ) as HTMLTextAreaElement | null;
+  const list = document.querySelector(
+    '.comment-container'
+  ) as HTMLUListElement | null;
 
-    form.onsubmit = (e) => {
-        e.preventDefault();
-        try {
-            const listItem = document.createElement('li');
-            const namePara = document.createElement('p');
-            const commentPara = document.createElement('p');
-            const nameValue = nameField.value;
-            const commentValue = commentField.value;
+  if (!form || !nameField || !commentField || !list) {
+    console.error('Form elements not found');
+    return;
+  }
 
-            namePara.textContent = nameValue;
-            commentPara.textContent = commentValue;
+  form.onsubmit = (e: Event) => {
+    e.preventDefault();
+    try {
+      const listItem = document.createElement('li');
+      const namePara = document.createElement('p');
+      const commentPara = document.createElement('p');
+      const nameValue = nameField.value;
+      const commentValue = commentField.value;
 
-            listItem.appendChild(namePara);
-            listItem.appendChild(commentPara);
-            list.appendChild(listItem);
+      namePara.textContent = nameValue;
+      commentPara.textContent = commentValue;
 
-            nameField.value = '';
-            commentField.value = '';
-        } catch (error) {
-            console.error('Error adding comment:', error);
-        }
-    };
+      listItem.appendChild(namePara);
+      listItem.appendChild(commentPara);
+      list.appendChild(listItem);
+
+      nameField.value = ''; // Reset the input fields after submitting
+      commentField.value = '';
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
+  };
 };
