@@ -40,10 +40,12 @@ export const handleCommentForm = () => {
     '.comment-container'
   ) as HTMLUListElement | null;
 
+
   if (!form || !nameField || !commentField || !list) {
     console.error('Form elements not found');
     return;
   }
+
 
   form.onsubmit = (e: Event) => {
     e.preventDefault();

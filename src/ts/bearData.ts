@@ -27,7 +27,7 @@ interface QueryResponse {
   };
 }
 // Function to fetch the image URLs based on the file names
-const fetchImageUrl = async (fileName: string): Promise<string | undefined> => {
+export const fetchImageUrl = async (fileName: string): Promise<string | undefined> => {
   const imageParams = {
     action: 'query',
     titles: `File:${fileName}`,
