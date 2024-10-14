@@ -62,6 +62,67 @@ console.log('Make use of markdown codesnippets to show and explain good/bad prac
 ```
 
 
+### Bad Coding Practices and How They Were Fixed
+
+#### 1. **Callback Hell (Deeply Nested `.then()` Chains)**
+**Problem**: The original code relied heavily on `.then()` methods, leading to deeply nested callbacks, commonly known as "callback hell." This made the code harder to read, maintain, and debug.
+
+**Why it’s bad**: Callback hell reduces readability and increases cognitive load, making it difficult to follow asynchronous operations. It also makes debugging more complex as the nesting grows.
+
+**Fix**: Replaced the `.then()` chains with `async/await` to flatten the structure and make the code easier to follow, improving readability and manageability.
+
+---
+
+#### 2. **Repeated Use of `function` Syntax**
+**Problem**: The original code used the traditional `function` keyword instead of modern arrow functions. While not incorrect, it's considered outdated in modern JavaScript development.
+
+**Why it’s bad**: The `function` keyword does not bind `this` to the lexical context, which can cause issues with scope in asynchronous code or event handlers. Arrow functions provide a more concise syntax and avoid `this` binding issues.
+
+**Fix**: Replaced traditional function declarations with arrow functions for more modern and concise syntax, while preventing potential scope issues.
+
+---
+
+#### 3. **Inefficient UI Updates**
+**Problem**: The original code updated the UI every time a bear's image URL was fetched, causing multiple DOM manipulations, which is inefficient.
+
+**Why it’s bad**: Frequent DOM updates can lead to performance issues, particularly when rendering a large amount of data. Each manipulation can cause the browser to repaint or reflow the page, resulting in slower performance.
+
+**Fix**: Refactored the code to first collect all the bear data and then update the UI once after all data processing is complete. This reduces the number of DOM manipulations and improves performance.
+
+---
+
+#### 4. **Lack of Proper Error Handling**
+**Problem**: The original code lacked proper error handling for fetch requests. If an error occurred (e.g., network issues or an invalid API response), the program could fail silently, leaving users unaware of the problem.
+
+**Why it’s bad**: Without proper error handling, errors may go unnoticed, leading to unpredictable behavior and making debugging difficult. It can also degrade user experience by not informing them of issues.
+
+**Fix**: Added `try/catch` blocks around asynchronous calls to catch and handle errors properly, ensuring meaningful feedback for both users and developers. Also, added checks for image URL availability, using a fallback image if the URL is not accessible.
+
+---
+
+#### 5. **Lack of Modularity**
+**Problem**: The original code mixed different responsibilities (e.g., UI manipulation and data fetching) in the same functions.
+
+**Why it’s bad**: Mixing concerns violates the principle of separation of concerns, making the code harder to test, maintain, and scale. It also makes debugging and modifying specific functionality more difficult.
+
+**Fix**: Split the logic into separate modules to handle different concerns, such as fetching data, manipulating the UI, and handling events, resulting in more modular, testable, and maintainable code.
+
+---
+
+#### 6. **Use of `var` Instead of `const` or `let`**
+**Problem**: The original code used `var` for variable declarations, which is outdated and can lead to issues due to function-level scoping and hoisting.
+
+**Why it’s bad**: `var` can cause unintended variable reassignments and hoisting issues, making the code harder to reason about. Modern JavaScript uses `const` and `let`, which provide block-level scope, reducing the risk of such bugs.
+
+**Fix**: Replaced `var` with `const` for variables that don’t change, and `let` for variables that may be reassigned. This improves code clarity and reduces potential bugs related to scoping.
+
+
+
+
+
+
+
+
 ## 2. Dependency- and Build Management Playground (10 Pts.)
 Build the application with ``npm`` and a build and a dependency management tool of your choice (e.g. [Vite](https://vitejs.dev/), [Webpack](https://webpack.js.org/), or others). 
 
