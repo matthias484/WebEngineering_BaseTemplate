@@ -46,7 +46,7 @@ const fetchImageUrl = async (fileName: string): Promise<string | undefined> => {
   const firstPage = Object.values(pages)[0]; // Extract the first page
 
   // Check if imageinfo exists before accessing its properties
-  if (firstPage && firstPage.imageinfo && firstPage.imageinfo[0]) {
+  if (firstPage?.imageinfo?.[0] != null) {
     return firstPage.imageinfo[0].url;
   }
 
@@ -73,26 +73,26 @@ export const extractBears = async (wikitext: string): Promise<void> => {
       const imageMatch = row.match(/\|image=(.*?)\n/);
       const rangeMatch = row.match(/\|range=(.*?)\n/); // Extract the range
 
-      if (nameMatch && binomialMatch && imageMatch && rangeMatch) {
+      if (nameMatch != null && binomialMatch != null && imageMatch != null && rangeMatch != null) {
         const fileName = imageMatch[1]?.trim().replace('File:', '');
-        const imageUrl = await fetchImageUrl(fileName);
+
+        const imageUrl = fileName ? await fetchImageUrl(fileName) : undefined;
 
         bears.push({
-          name: nameMatch[1],
-          binomial: binomialMatch[1],
+          name: nameMatch[1]?.trim() ?? 'Unknown Name',
+          binomial: binomialMatch[1]?.trim() ?? 'Unknown Binomial',
           image: imageUrl,
-          range: rangeMatch[1].trim(),
+          range: rangeMatch[1]?.trim() ?? 'Unknown Range',
         });
       }
+
     }
   }
 
   // Update the UI after all bears are processed
-  const moreBearsSection = document.querySelector(
-    '.more_bears'
-  ) as HTMLElement | null;
+  const moreBearsSection = document.querySelector('.more_bears');
 
-  if (!moreBearsSection) {
+  if (moreBearsSection == null) {
     console.error('Element ".more_bears" not found');
     return;
   }

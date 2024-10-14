@@ -1,6 +1,5 @@
-// src/js/main.js
-import { toggleComments, handleCommentForm } from './comments.js';
-import { getBearData } from './bearData.js';
+import { toggleComments, handleCommentForm } from './comments';
+import { getBearData } from './bearData';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize the comments functionality
@@ -9,10 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch and display the bear data
   getBearData()
-      .then(() => {
-        console.log('Bear data loaded successfully');
-      })
-      .catch((error) => {
-        console.error('Error fetching bear data:', error);
-      });
+    .then(() => {
+      console.log('Bear data loaded successfully');
+    })
+    .catch((error) => {
+      console.error('Error fetching bear data:', error);
+    });
 });
