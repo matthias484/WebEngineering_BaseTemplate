@@ -1,14 +1,10 @@
 // Functionality for showing/hiding the comments section
 export const toggleComments = () => {
-  const showHideBtn = document.querySelector(
-    '.show-hide'
-  ) as HTMLButtonElement | null;
-  const commentWrapper = document.querySelector(
-    '.comment-wrapper'
-  ) as HTMLElement | null;
+  const showHideBtn = document.querySelector('.show-hide');
+  const commentWrapper = document.querySelector('.comment-wrapper');
 
   // Check if elements exist before attaching event listeners
-  if (!showHideBtn || !commentWrapper) {
+  if (showHideBtn === null || commentWrapper === null) {
     console.error('Required elements not found.');
     return;
   }
@@ -29,23 +25,21 @@ export const toggleComments = () => {
 
 // Functionality for adding a new comment via the comments form
 export const handleCommentForm = () => {
-  const form = document.querySelector(
-    '.comment-form'
-  ) as HTMLFormElement | null;
-  const nameField = document.querySelector('#name') as HTMLInputElement | null;
-  const commentField = document.querySelector(
-    '#comment'
-  ) as HTMLTextAreaElement | null;
-  const list = document.querySelector(
-    '.comment-container'
-  ) as HTMLUListElement | null;
+  const form = document.querySelector('.comment-form');
+  const nameField = document.querySelector('#name');
+  const commentField = document.querySelector('#comment');
+  const list = document.querySelector('.comment-container');
 
-
-  if (!form || !nameField || !commentField || !list) {
+  // Explicit null checks to satisfy the linter
+  if (
+    form === null ||
+    nameField === null ||
+    commentField === null ||
+    list === null
+  ) {
     console.error('Form elements not found');
     return;
   }
-
 
   form.onsubmit = (e: Event) => {
     e.preventDefault();
