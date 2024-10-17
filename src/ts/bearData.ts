@@ -27,7 +27,9 @@ interface QueryResponse {
   };
 }
 // Function to fetch the image URLs based on the file names
-export const fetchImageUrl = async (fileName: string): Promise<string | undefined> => {
+export const fetchImageUrl = async (
+  fileName: string
+): Promise<string | undefined> => {
   const imageParams = {
     action: 'query',
     titles: `File:${fileName}`,
@@ -73,10 +75,16 @@ export const extractBears = async (wikitext: string): Promise<void> => {
       const imageMatch = row.match(/\|image=(.*?)\n/);
       const rangeMatch = row.match(/\|range=(.*?)\n/); // Extract the range
 
-      if (nameMatch != null && binomialMatch != null && imageMatch != null && rangeMatch != null) {
+      if (
+        nameMatch != null &&
+        binomialMatch != null &&
+        imageMatch != null &&
+        rangeMatch != null
+      ) {
         const fileName = imageMatch[1]?.trim() ?? '';
 
-        const imageUrl = fileName !== '' ? await fetchImageUrl(fileName) : undefined;
+        const imageUrl =
+          fileName !== '' ? await fetchImageUrl(fileName) : undefined;
 
         bears.push({
           name: nameMatch[1]?.trim() ?? 'Unknown Name',
@@ -85,7 +93,6 @@ export const extractBears = async (wikitext: string): Promise<void> => {
           range: rangeMatch[1]?.trim() ?? 'Unknown Range',
         });
       }
-
     }
   }
 
@@ -117,21 +124,25 @@ export const getBearData = async (): Promise<void> => {
     if (!res.ok) {
       throw new Error('Failed to fetch bear data from Wikipedia');
     }
-    const data = await res.json();
-    const wikitext = data.parse.wikitext['*'];
-    await extractBears(wikitext);
-  } catch (error: any) {
-    // Use `any` to safely access `error.message`
-    console.error(error.message || 'Unknown error');
 
-    const moreBearsSection = document.querySelector('.more_bears') as HTMLElement | null;
+    const data: { parse: { wikitext: { '*': string } } } = await res.json(); // explizite Typdefinition
 
-    if (moreBearsSection != null) {
-      moreBearsSection.innerHTML = `<p>Error loading bear data: ${error.message ?? 'Unknown error occurred'}</p>`;
-    } else {
-      console.error('Element ".more_bears" not found');
+    const wikitext: string = data.parse.wikitext['*']; // sicherstellen, dass wikitext ein string ist
+
+    await extractBears(wikitext); // wikitext ist jetzt explizit als string typisiert
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const errorMessage =
+        error.message !== '' ? error.message : 'Unknown error';
+      console.error(errorMessage);
+
+      const moreBearsSection = document.querySelector('.more_bears');
+
+      if (moreBearsSection != null) {
+        moreBearsSection.innerHTML = `<p>Error loading bear data: ${errorMessage}</p>`;
+      } else {
+        console.error('Element ".more_bears" not found');
+      }
     }
-
-
   }
 };
