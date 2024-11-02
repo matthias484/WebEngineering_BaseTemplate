@@ -225,6 +225,17 @@ Test the current color contrast (text/background), report the results of the tes
 
 *Present your reports here.*
 
+
+### Findings
+When testing the current color contrast between text and background, several low-contrast cases were identified, particularly with navigation links and the search field label. These low-contrast issues affect readability and accessibility for users with visual impairments.
+
+### Fixes
+To meet color contrast requirements, the following adjustments were made:
+1. **Navigation**: The background color was set to a bold dark blue (#1e40af), with white text (#ffffff) in the navigation links to ensure high contrast.
+2. **Search Field**: A more visible label with higher contrast (#ffffff on #1e40af) was added to the search field to improve accessibility.
+
+
+
 **(0.5) Semantic HTML**
 
 Report on what happens when you try to navigate the page using a screen reader. Fix those navigation issues.
@@ -236,6 +247,12 @@ Report on what happens when you try to navigate the page using a screen reader. 
 The ``<audio>`` player isn't accessible to hearing impaired (deaf) people — can you add some kind of accessible alternative for these users?
 
 *Present your findings and fixes here.*
+
+The `<audio>` element is inaccessible to deaf or hearing-impaired users, as there is no alternative representation of the audio content. To improve this, a text transcript of the audio should be provided to fully describe its content.
+
+### Fixes
+A written transcript was added below the `<audio>` element to make the audio content accessible. The transcript provides key information discussed in the audio, allowing users with hearing impairments to access the information.
+
 
 **(1) Forms** 
   * The ``<input>`` element in the search form at the top could do with a label, but we don't want to add a visible text label that would potentially spoil the design and isn't really needed by sighted users. Fix this issue by adding a label that is only accessible to screen readers.
@@ -249,11 +266,30 @@ The show/hide comment control button is not currently keyboard-accessible. Can y
 
 *Present your findings and fixes here.*
 
+#### Findings
+The "Show comments" control button was not accessible via keyboard. This meant that users could not navigate to it using the `Tab` key or activate it with the `Enter` key. This lack of keyboard accessibility made it difficult for users relying on keyboard navigation to interact with the comments section.
+
+#### Fixes
+To address this issue, the following adjustments were made:
+1. **Tab Focusability**: Added `tabindex="0"` to the button to make it accessible via the `Tab` key.
+2. **Keyboard Activation**: Implemented an `onkeydown` event listener to allow activation with the `Enter` key, enabling users to toggle the comments section without a mouse.
+3. **ARIA Role and State**: Added `role="button"` and `aria-pressed` attributes to improve screen reader accessibility. The `aria-pressed` attribute dynamically updates to indicate the expanded or collapsed state of the comments section.
+
 **(1) The table**
 
 The data table is not currently very accessible — it is hard for screen reader users to associate data rows and columns together, and the table also has no kind of summary to make it clear what it shows. Can you add some features to your HTML to fix this problem?
 
 *Present your findings and fixes here.*
+#### Findings
+The data table is not currently accessible for screen reader users. There are two main issues:
+1. **Lack of Accessible Summary**: The table does not have a summary or caption to describe its content, making it unclear for users who rely on screen readers.
+2. **Association Between Data and Headers**: While the column headers use `<th>` elements with `scope="col"`, which helps screen readers recognize the headers, additional context, such as row headers and captions, could improve accessibility.
+
+#### Fixes
+To address these issues, the following changes were made:
+1. **Table Caption**: Added a `<caption>` element to provide a clear description of the table's purpose.
+2. **Row Headers**: Converted the first column cells in each row (`Bear Type`) to `<th scope="row">` elements, helping screen readers associate each row with the "Bear Type" header.
+
 
 **(1) More Findings**
 

@@ -26,13 +26,14 @@ interface QueryResponse {
     pages: Record<string, Page>;
   };
 }
+
 // Function to fetch the image URLs based on the file names
-export const fetchImageUrl = async (
-  fileName: string
-): Promise<string | undefined> => {
+const fetchImageUrl = async (fileName: string): Promise<string | undefined> => {
+  const cleanFileName = fileName.replace(/^File:/, '').trim(); // Remove "File:" prefix
+  console.log(`Fetching image URL for file: ${cleanFileName}`); // Debug log
   const imageParams = {
     action: 'query',
-    titles: `File:${fileName}`,
+    titles: `File:${cleanFileName}`,
     prop: 'imageinfo',
     iiprop: 'url',
     format: 'json',
@@ -41,24 +42,22 @@ export const fetchImageUrl = async (
 
   const url = `${baseUrl}?${new URLSearchParams(imageParams).toString()}`;
   const res = await fetch(url);
-  const data: QueryResponse = await res.json(); // Use the defined QueryResponse interface
+  const data: QueryResponse = await res.json();
 
   // Ensure pages exist before accessing nested properties
   const pages = data.query.pages;
-  const firstPage = Object.values(pages)[0]; // Extract the first page
+  const firstPage = Object.values(pages)[0];
 
-  // Check if imageinfo exists before accessing its properties
-  if (firstPage?.imageinfo?.[0] != null) {
+  if (firstPage?.imageinfo?.[0]?.url) {
     return firstPage.imageinfo[0].url;
   }
 
-  // Return undefined if no valid image URL is found
   console.warn('No image URL found for file:', fileName);
   return undefined;
 };
 
 // Function to extract bear data from the wikitext, including range
-export const extractBears = async (wikitext: string): Promise<void> => {
+const extractBears = async (wikitext: string): Promise<void> => {
   const speciesTables = wikitext.split('{{Species table/end}}');
   const bears: Array<{
     name: string;
@@ -72,19 +71,12 @@ export const extractBears = async (wikitext: string): Promise<void> => {
     for (const row of rows) {
       const nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
       const binomialMatch = row.match(/\|binomial=(.*?)\n/);
-      const imageMatch = row.match(/\|image=(.*?)\n/);
+      const imageMatch = row.match(/\|image=(.*?)(\||\n)/); // Extract the image file name
       const rangeMatch = row.match(/\|range=(.*?)\n/); // Extract the range
 
-      if (
-        nameMatch != null &&
-        binomialMatch != null &&
-        imageMatch != null &&
-        rangeMatch != null
-      ) {
+      if (nameMatch != null && binomialMatch != null && imageMatch != null && rangeMatch != null) {
         const fileName = imageMatch[1]?.trim() ?? '';
-
-        const imageUrl =
-          fileName !== '' ? await fetchImageUrl(fileName) : undefined;
+        const imageUrl = fileName !== '' ? await fetchImageUrl(fileName) : undefined;
 
         bears.push({
           name: nameMatch[1]?.trim() ?? 'Unknown Name',
@@ -96,19 +88,18 @@ export const extractBears = async (wikitext: string): Promise<void> => {
     }
   }
 
-  // Update the UI after all bears are processed
   const moreBearsSection = document.querySelector('.more_bears');
-
   if (moreBearsSection == null) {
     console.error('Element ".more_bears" not found');
     return;
   }
 
+  moreBearsSection.innerHTML = ''; // Clear previous content
   bears.forEach((bear) => {
     moreBearsSection.innerHTML += `
       <div>
         <h3>${bear.name} (${bear.binomial})</h3>
-        <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
+        <img src="${bear.image ?? ''}" alt="${bear.name}" style="width:200px; height:auto;">
         <p><strong>Range:</strong> ${bear.range}</p>
       </div>
     `;
@@ -125,19 +116,15 @@ export const getBearData = async (): Promise<void> => {
       throw new Error('Failed to fetch bear data from Wikipedia');
     }
 
-    const data: { parse: { wikitext: { '*': string } } } = await res.json(); // explizite Typdefinition
-
-    const wikitext: string = data.parse.wikitext['*']; // sicherstellen, dass wikitext ein string ist
-
-    await extractBears(wikitext); // wikitext ist jetzt explizit als string typisiert
+    const data: { parse: { wikitext: { '*': string } } } = await res.json();
+    const wikitext: string = data.parse.wikitext['*'];
+    await extractBears(wikitext);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      const errorMessage =
-        error.message !== '' ? error.message : 'Unknown error';
+      const errorMessage = error.message || 'Unknown error';
       console.error(errorMessage);
 
       const moreBearsSection = document.querySelector('.more_bears');
-
       if (moreBearsSection != null) {
         moreBearsSection.innerHTML = `<p>Error loading bear data: ${errorMessage}</p>`;
       } else {

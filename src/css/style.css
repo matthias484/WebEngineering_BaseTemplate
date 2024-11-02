@@ -7,98 +7,96 @@ html, body {
 
 html {
   font-size: 10px;
-  background-color: #dde;
+  background-color: #f0f8ff; /* Heller Hintergrund für bessere Lesbarkeit */
 }
 
 body {
   width: 80%;
   min-width: 1024px;
   margin: 0 auto;
+  color: #333; /* Standardtextfarbe für hohen Kontrast */
 }
 
 /* || typography */
 
 font[size="7"], font[size="6"], font[size="5"] {
   font-family: 'Sonsie One', cursive;
-  color: #2a2a2a;
 }
 
 p, input, li, table, label {
   font-family: 'Open Sans Condensed', sans-serif;
-  color: #2a2a2a;
 }
 
 font[size="7"] {
   font-size: 4rem;
-  text-align: center;
-  color: white;
-  text-shadow: 2px 2px 10px black;
+  color: #1e3a8a; /* Dunkler Blau für hohe Lesbarkeit */
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 font[size="6"] {
   font-size: 3rem;
-  text-align: center;
+  color: #1e40af;
 }
 
 font[size="5"] {
   font-size: 2.2rem;
+  color: #1e3a8a;
 }
 
 p, li, table {
   font-size: 1.6rem;
   line-height: 1.5;
+  color: #333; /* Dunklere Farbe für besseren Kontrast */
 }
 
-/* || header layout */
+/* || header and navigation layout */
 
-div[class="nav"], article, footer, .secondary {
-  background-color: green;
+article, footer, .secondary {
+  background-color: #e0f2fe; /* Weiches Blau */
 }
 
 article, footer, .secondary {
   padding: 10px 30px;
 }
 
-article {
-  margin-right: 10px;
-}
-
-div[class="nav"] {
+.nav {
   height: 50px;
-  background-color: ff80ff;
+  background-color: #1e40af; /* Kräftigeres Dunkelblau für besseren Kontrast */
   display: flex;
   padding: 1% 0;
   margin-bottom: 10px;
 }
 
-div[class="nav"] ul {
+.nav ul {
   padding: 0;
   list-style-type: none;
   flex: 2;
   display: flex;
 }
 
-div[class="nav"] li {
+.nav li {
   display: inline;
   text-align: center;
   flex: 1;
 }
 
-div[class="nav"] a {
+.nav a {
   display: inline-block;
   font-size: 2rem;
   text-transform: uppercase;
   text-decoration: none;
-  color: black;
+  color: #ffffff; /* Weißer Text für hohen Kontrast */
+  background-color: #1e40af; /* Gleicher Hintergrund wie die Navigationsleiste */
+  padding: 10px 20px; /* Füge Innenabstand hinzu, um Lesbarkeit zu verbessern */
+  border-radius: 5px; /* Optional: Abrundung für ein ästhetisches Design */
 }
 
-div[class="nav"] .search {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding: 0 2em;
+.nav a:hover {
+  background-color: #3b82f6; /* Helleres Blau beim Hover-Effekt für visuelles Feedback */
 }
+
+
+/* Search box styling */
 
 .search input {
   font-size: 1.6rem;
@@ -112,9 +110,9 @@ div[class="nav"] .search {
 .search input[type="submit"] {
   flex: 1;
   margin-left: 1rem;
-  background: #333;
+  background: #1e3a8a; /* Kräftiges Dunkelblau */
   border: 0;
-  color: white;
+  color: #ffffff;
 }
 
 /* || main layout */
@@ -139,24 +137,21 @@ footer {
 
 table {
   width: 100%;
-  background-color: #dde;
+  background-color: #f0f8ff;
   border-collapse: collapse;
 }
 
 th, td {
   padding: 10px;
-}
-
-td {
-  text-align: center;
+  color: #333;
 }
 
 th[scope="col"] {
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid #1e3a8a;
 }
 
 tbody tr:nth-child(odd) {
-  background-color: #def;
+  background-color: #e0f2fe;
 }
 
 /* styling content images and audio */
@@ -173,20 +168,13 @@ audio {
 /* Comments styling */
 
 .comments {
-  background-color: #def;
+  background-color: #dbeafe; /* Sanftes Hellblau */
   padding: 10px;
 }
 
 .show-hide {
   cursor: pointer;
-}
-
-.comments font[size="6"] {
-  font-size: 2rem;
-}
-
-.comments font[size="6"]:nth-of-type(2) {
-  margin-bottom: 0;
+  color: #1e3a8a;
 }
 
 .comment-form {
@@ -207,6 +195,7 @@ audio {
 .comment-form input {
   margin-left: 1rem;
   flex: 6;
+  border: 1px solid #1e3a8a;
 }
 
 .show-hide {
@@ -220,9 +209,9 @@ audio {
 }
 
 .comment-form input[type="submit"], .show-hide {
-  background: #333;
+  background: #1e3a8a;
   border: 0;
-  color: white;
+  color: #ffffff;
 }
 
 .comment-form input[type="submit"] {
@@ -243,8 +232,22 @@ audio {
 .comment-container li p:nth-child(1) {
   flex: 1;
   font-weight: bold;
+  color: #1e40af;
 }
 
 .comment-container li p:nth-child(2) {
   flex: 5;
+  color: #333;
 }
+
+/*  */
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+  opacity: 0.8;
+  color: #ffffff; /* Weißer Text für besseren Kontrast auf dem blauen Hintergrund */
+  background-color: #1e40af; /* Kräftiges Dunkelblau für hohe Lesbarkeit */
+  padding: 2px 5px; /* Polsterung für Lesbarkeit */
+  border-radius: 3px; /* Leicht abgerundet */
+}
+
