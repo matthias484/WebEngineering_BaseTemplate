@@ -1,7 +1,7 @@
 // Functionality for showing/hiding the comments section
 export const toggleComments = () => {
-  const showHideBtn = document.querySelector('.show-hide') as HTMLElement;
-  const commentWrapper = document.querySelector('.comment-wrapper') as HTMLElement;
+  const showHideBtn = document.querySelector('.show-hide')!;
+  const commentWrapper = document.querySelector('.comment-wrapper')!;
 
   // Check if elements exist before attaching event listeners
   if (!showHideBtn || !commentWrapper) {
@@ -36,10 +36,10 @@ export const toggleComments = () => {
 
 // Functionality for adding a new comment via the comments form
 export const handleCommentForm = () => {
-  const form = document.querySelector('.comment-form') as HTMLFormElement;
-  const nameField = document.querySelector('#name') as HTMLInputElement;
-  const commentField = document.querySelector('#comment') as HTMLInputElement;
-  const list = document.querySelector('.comment-container') as HTMLUListElement;
+  const form = document.querySelector('.comment-form')!;
+  const nameField = document.querySelector('#name')!;
+  const commentField = document.querySelector('#comment')!;
+  const list = document.querySelector('.comment-container')!;
 
   // Explicit null checks to satisfy the linter
   if (!form || !nameField || !commentField || !list) {

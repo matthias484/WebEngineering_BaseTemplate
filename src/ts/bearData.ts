@@ -74,9 +74,15 @@ const extractBears = async (wikitext: string): Promise<void> => {
       const imageMatch = row.match(/\|image=(.*?)(\||\n)/); // Extract the image file name
       const rangeMatch = row.match(/\|range=(.*?)\n/); // Extract the range
 
-      if (nameMatch != null && binomialMatch != null && imageMatch != null && rangeMatch != null) {
+      if (
+        nameMatch != null &&
+        binomialMatch != null &&
+        imageMatch != null &&
+        rangeMatch != null
+      ) {
         const fileName = imageMatch[1]?.trim() ?? '';
-        const imageUrl = fileName !== '' ? await fetchImageUrl(fileName) : undefined;
+        const imageUrl =
+          fileName !== '' ? await fetchImageUrl(fileName) : undefined;
 
         bears.push({
           name: nameMatch[1]?.trim() ?? 'Unknown Name',
