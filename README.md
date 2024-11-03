@@ -236,13 +236,31 @@ To meet color contrast requirements, the following adjustments were made:
 
 
 
-**(0.5) Semantic HTML**
+** (0.5) Semantic HTML**
 
 Report on what happens when you try to navigate the page using a screen reader. Fix those navigation issues.
 
 *Present your reports here.*
 
-**(0.5) Audio** 
+#### Findings and Fixed
+1. **Descriptive Elements**:  
+   -  (-) Missing labels on navigation links and search input, making purpose unclear for screen readers.
+   -  (+) ARIA labels on links and hidden label for search input.
+
+2. **Unstructured Navigation**:
+   - (-) Lack of headings made it hard to navigate between sections.
+   - (+) Added headings for major sections.
+
+3. **Data Table Accessibility**:
+   - (-) No caption or header associations, reducing context for screen readers.
+   - (+) Added `<caption>` and `scope` attributes on headers for clearer context.
+
+4. **Comment Section Control**:
+   - (-) "Show comments" button was not keyboard-accessible, limiting usability.
+   - (+) Enabled keyboard focus and `Enter` key toggle for "Show comments" button, with `aria-pressed` for state indication.
+
+
+** (0.5) Audio** 
 
 The ``<audio>`` player isn't accessible to hearing impaired (deaf) people — can you add some kind of accessible alternative for these users?
 
@@ -254,13 +272,17 @@ The `<audio>` element is inaccessible to deaf or hearing-impaired users, as ther
 A written transcript was added below the `<audio>` element to make the audio content accessible. The transcript provides key information discussed in the audio, allowing users with hearing impairments to access the information.
 
 
-**(1) Forms** 
+** (1) Forms** 
   * The ``<input>`` element in the search form at the top could do with a label, but we don't want to add a visible text label that would potentially spoil the design and isn't really needed by sighted users. Fix this issue by adding a label that is only accessible to screen readers.
   * The two ``<input>`` elements in the comment form have visible text labels, but they are not unambiguously associated with their labels — how do you achieve this? Note that you'll need to update some of the CSS rule as well.
 
 *Present your findings and fixes here.*
 
-**(0.5) Comment section**
+A visually hidden label was added to the search form `<input>` element to ensure accessibility without altering the visible design. The label reads "Search" and is assigned the class `visually-hidden` to make it available only to screen readers. This provides necessary context for visually impaired users.
+
+The labels for the two `<input>` elements in the comment form (name and comment fields) are explicitly associated with their respective inputs by using `for` attributes in the label tags that match the `id` of each input field. This ensures screen readers can accurately associate each label with the correct input. CSS adjustments ensure the labels remain visible and properly styled.
+
+** (0.5) Comment section**
 
 The show/hide comment control button is not currently keyboard-accessible. Can you make it keyboard accessible, both in terms of focusing it using the tab key, and activating it using the return key?
 
@@ -275,7 +297,7 @@ To address this issue, the following adjustments were made:
 2. **Keyboard Activation**: Implemented an `onkeydown` event listener to allow activation with the `Enter` key, enabling users to toggle the comments section without a mouse.
 3. **ARIA Role and State**: Added `role="button"` and `aria-pressed` attributes to improve screen reader accessibility. The `aria-pressed` attribute dynamically updates to indicate the expanded or collapsed state of the comments section.
 
-**(1) The table**
+** (1) The table**
 
 The data table is not currently very accessible — it is hard for screen reader users to associate data rows and columns together, and the table also has no kind of summary to make it clear what it shows. Can you add some features to your HTML to fix this problem?
 
