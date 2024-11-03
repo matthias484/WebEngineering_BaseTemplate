@@ -1,10 +1,10 @@
 // Functionality for showing/hiding the comments section
 export const toggleComments = () => {
-  const showHideBtn = document.querySelector('.show-hide')!;
-  const commentWrapper = document.querySelector('.comment-wrapper')!;
+  const showHideBtn = document.querySelector('.show-hide');
+  const commentWrapper = document.querySelector('.comment-wrapper');
 
-  // Check if elements exist before attaching event listeners
-  if (!showHideBtn || !commentWrapper) {
+  // Explicit null checks
+  if (showHideBtn === null || commentWrapper === null) {
     console.error('Required elements not found.');
     return;
   }
@@ -36,13 +36,18 @@ export const toggleComments = () => {
 
 // Functionality for adding a new comment via the comments form
 export const handleCommentForm = () => {
-  const form = document.querySelector('.comment-form')!;
-  const nameField = document.querySelector('#name')!;
-  const commentField = document.querySelector('#comment')!;
-  const list = document.querySelector('.comment-container')!;
+  const form = document.querySelector('.comment-form');
+  const nameField = document.querySelector<HTMLInputElement>('#name');
+  const commentField = document.querySelector<HTMLInputElement>('#comment');
+  const list = document.querySelector('.comment-container');
 
-  // Explicit null checks to satisfy the linter
-  if (!form || !nameField || !commentField || !list) {
+  // Explicit null checks in multiline format
+  if (
+    form === null ||
+    nameField === null ||
+    commentField === null ||
+    list === null
+  ) {
     console.error('Form elements not found');
     return;
   }
@@ -53,8 +58,8 @@ export const handleCommentForm = () => {
       const listItem = document.createElement('li');
       const namePara = document.createElement('p');
       const commentPara = document.createElement('p');
-      const nameValue = nameField.value;
-      const commentValue = commentField.value;
+      const nameValue = nameField.value ?? ''; // Handle potential null/undefined
+      const commentValue = commentField.value ?? ''; // Handle potential null/undefined
 
       namePara.textContent = nameValue;
       commentPara.textContent = commentValue;
