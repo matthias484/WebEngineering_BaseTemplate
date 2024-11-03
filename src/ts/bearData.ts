@@ -24,7 +24,9 @@ interface Bear {
 }
 
 // Function to fetch the image URLs based on the file names
-const fetchImageUrl = async (fileName: string): Promise<string | undefined> => {
+export const fetchImageUrl = async (
+  fileName: string
+): Promise<string | undefined> => {
   const cleanFileName = fileName.replace(/^File:/, '').trim();
   if (cleanFileName === '') return undefined;
 
@@ -48,7 +50,7 @@ const fetchImageUrl = async (fileName: string): Promise<string | undefined> => {
   return firstPage?.imageinfo?.[0]?.url ?? undefined;
 };
 // Function to extract bear data from the wikitext, including range
-const extractBears = async (wikitext: string): Promise<Bear[]> => {
+export const extractBears = async (wikitext: string): Promise<Bear[]> => {
   const speciesTables = wikitext.split('{{Species table/end}}');
   const bears: Bear[] = [];
 

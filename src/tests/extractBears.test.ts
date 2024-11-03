@@ -1,15 +1,28 @@
-import { fetchImageUrl } from '../ts/bearData';
+import { extractBears } from '../ts/bearData';
 import { describe, it, expect } from 'vitest';
 
-describe('fetchImageUrl', () => {
-    it('should return undefined when the image URL is not found', async () => {
-        const imageUrl = await fetchImageUrl('non-existent-file.jpg');
-        expect(imageUrl).toBeUndefined();
-    });
+describe('extractBears', () => {
+  it('should return an empty array for wikitext without bears', async () => {
+    const wikitext = '{{Species table/end}}';
+    const bears = await extractBears(wikitext);
+    expect(bears).toEqual([]);
+  });
 
-    it('should return a valid image URL when the image exists', async () => {
-        // Here you can test with an actual existing image from Wikipedia
-        const imageUrl = await fetchImageUrl('Polar_bear.jpg');
-        expect(imageUrl).toBeTruthy();
-    });
+  it('should extract bear data from valid wikitext', async () => {
+    const wikitext = `
+      {{Species table/row
+      |name=[[Giant panda]]
+      |binomial=A. melanoleuca
+      |image=Grosser Panda.JPG
+      |range=Central China
+      }}
+      {{Species table/end}}
+    `;
+    const bears = await extractBears(wikitext);
+    expect(bears).toHaveLength(1);
+    expect(bears[0].name).toBe('Giant panda');
+    expect(bears[0].binomial).toBe('A. melanoleuca');
+    expect(bears[0].range).toBe('Central China');
+    expect(bears[0].image).toMatch(/^https:\/\/upload\.wikimedia\.org/);
+  });
 });
